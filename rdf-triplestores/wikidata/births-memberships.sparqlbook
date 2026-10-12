@@ -2,13 +2,55 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "\nInspect first a card: https://www.wikidata.org/wiki/Q1238363",
+    "value": "Approaches:\n* use a LLM for getting information [chat with Euria (12.10.2026)](https://euria.infomaniak.com/shared/01a1320e-33cc-71a8-9f98-2e4fc4d72114) \n* Inspect a card of a person, e.g. Dominique de Buman: https://www.wikidata.org/wiki/Q1238363",
     "metadata": {}
   },
   {
     "kind": 2,
     "language": "sparql",
-    "value": "SELECT ?person ?personLabel WHERE {\n  ?person wdt:P39 wd:Q18510612.\n  ?person rdfs:label ?personLabel .\n  FILTER(LANG(?personLabel) = \"en\")\n}\nORDER BY ?personLabel\nlimit 10\n",
+    "value": "### get the persons that had or have the position \n# of member of Swiss national council\nSELECT ?person ?personLabel WHERE {\n  ?person wdt:P39 wd:Q18510612.\n  ?person rdfs:label ?personLabel .\n  FILTER(LANG(?personLabel) = \"en\")\n}\nORDER BY ?personLabel\nlimit 10\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### count the persons that had or have the position \n# of member of Swiss national council\nSELECT (count(*) as ?num)\nWHERE {\n  ?person wdt:P39 wd:Q18510612.\n}\nORDER BY ?personLabel\n",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### Birth dates and places",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### get the birth dates and places\nSELECT DISTINCT ?person ?personLabel ?birthYear ?birthPlaceLabel ?long ?lat\nWHERE {\n  ?person wdt:P39 wd:Q18510612.\n  ?person rdfs:label ?personLabel .\n  FILTER(LANG(?personLabel) = \"en\")\n\n  # Get birth date\n  OPTIONAL{?person wdt:P569 ?birthDate\n  BIND(year(?birthDate) as ?birthYear)\n  }\n\n  # Get birth place\n  ?person wdt:P19 ?birthPlace.\n\n  # Get label of birth place\n  ?birthPlace rdfs:label ?birthPlaceLabel.\n   FILTER(LANG(?birthPlaceLabel) = \"en\")\n\n  # Get geocoordinates of birth place\n  ?birthPlace wdt:P625 ?geoCoordinates.\n   BIND(STR(?geoCoordinates) AS ?wkt)\n  # WKT: Point(<longitude> <latitude>)\n  BIND(REPLACE(?wkt, \"^Point\\\\((-?[0-9.]+) (-?[0-9.]+)\\\\)$\", \"$2\") AS ?lat)\n  BIND(REPLACE(?wkt, \"^Point\\\\((-?[0-9.]+) (-?[0-9.]+)\\\\)$\", \"$1\") AS ?long)\n  \n}\nORDER BY ?personLabel\nlimit 10\n",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### Memberships and mandates with dates",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### get the statements and the dates\nSELECT ?person ?personLabel (year(?start) as ?begin_year) (year(?end) as ?end_year)\nWHERE {\n  ?person  p:P39 ?statement .\n  # member of Swiss national council\n  ?statement ps:P39 wd:Q18510612.\n  ?person rdfs:label ?personLabel .\n  FILTER(LANG(?personLabel) = \"en\")\n\n    # qualifiers of the statement\n  # OPTIONAL {?statement pq:P580 ?start} \n  ?statement pq:P580 ?start \n  OPTIONAL { ?statement pq:P582 ?end }\n}\nORDER BY ?personLabel\nlimit 10\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### get the statements and the dates of all memberships and function\nSELECT ?person ?personLabel (year(?start) as ?begin_year) (year(?end) as ?end_year) ?oType ?oLabel ?o\nWHERE {\n  {\n  # member of Swiss national council  \n  ?person wdt:P39 wd:Q18510612.\n  ?person rdfs:label ?personLabel .\n  FILTER(LANG(?personLabel) = \"en\")\n  ?person  p:P39 ?statement .\n  ?statement ps:P39 ?o.\n  ?o rdfs:label ?oLabel .\n  FILTER(LANG(?oLabel) = \"en\")\n  BIND('function' as ?oType)\n  \n    # qualifiers of the statement\n  # OPTIONAL {?statement pq:P580 ?start} \n  ?statement pq:P580 ?start \n  OPTIONAL { ?statement pq:P582 ?end }\n  }\n  UNION\n  {\n  # member of Swiss national council  \n  ?person wdt:P39 wd:Q18510612.\n  ?person rdfs:label ?personLabel .\n  FILTER(LANG(?personLabel) = \"en\")\n  ?person  p:P463 ?statement .\n  ?statement ps:P463 ?o.\n  ?o rdfs:label ?oLabel .\n  FILTER(LANG(?oLabel) = \"en\")\n  BIND('member' as ?oType)\n  \n    # qualifiers of the statement\n  # OPTIONAL {?statement pq:P580 ?start} \n  ?statement pq:P580 ?start \n  OPTIONAL { ?statement pq:P582 ?end }\n  }\n}\nORDER BY ?begin_year\nlimit 10\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "",
     "metadata": {}
   }
 ]
