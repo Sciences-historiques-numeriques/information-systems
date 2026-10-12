@@ -1,0 +1,26 @@
+[
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT (COUNT(*) as ?num)\nWHERE {\n\n    ?s ?p ?o.\n}\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT (COUNT(*) as ?num)\nWHERE {\n\n    ?s ?p ?o.\n    MINUS {GRAPH <https://elites-suisses.lod4hss.org/> {\n    ?s ?p ?o\n}   }\n}\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT ?g (COUNT(*) as ?num)\nWHERE {\nGRAPH ?g {\n    ?s ?p ?o\n}    \n}\nGROUP BY ?g\nORDER BY DESC(?num)",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT (COUNT(*) as ?num)\nWHERE {\nGRAPH ?g {\n    ?s ?p ?o\n}    \n}\nORDER BY DESC(?num)",
+    "metadata": {}
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>\n\nselect ?p ?o\nwhere { \n    crm:E67 ?p ?o\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "prefix crm: <http://www.cidoc-crm.org/cidoc-crm/>\n\nselect *\nwhere { \n    ?s ?p crm:E67 \n    MINUS {?s a crm:E67}}",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "prefix sdh:<https://sdhss.org/ontology/core/>\nprefix crm: <http://www.cidoc-crm.org/cidoc-crm/>\n\nselect * where {\n    ?s a crm:E21;\n    \t?p ?o .\n    minus{?s ?p crm:E21}\n}\norder by ?s ?p\n\nlimit 10",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "prefix sdh:<https://sdhss.org/ontology/core/>\nprefix crm: <http://www.cidoc-crm.org/cidoc-crm/>\n\nselect\t?class (count(*) as ?num)\n where {\n    ?s a crm:E21;\n        ?p ?o.\n    ?s1\t?p1 ?s ;\n         a ?class.\n    minus{?s ?p crm:E21}\n}\ngroup by ?class\nlimit 10",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "prefix sdh:<https://sdhss.org/ontology/core/>\nprefix crm: <http://www.cidoc-crm.org/cidoc-crm/>\n\nselect\t?s ?p ?o\n where {\n    ?s a crm:E67;\n        ?p ?o.\n}\norder by ?s ?p\nlimit 10",
+    "metadata": {}
+  }
+]

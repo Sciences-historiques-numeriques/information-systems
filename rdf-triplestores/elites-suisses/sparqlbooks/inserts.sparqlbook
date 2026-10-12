@@ -1,0 +1,44 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Create new graph with correct URI \n\n* Create the new graph\n* Check\n* Drop the former one",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "INSERT {\n  GRAPH <https://elites-suisses.lod4hss.org/resource/> {\n    ?s ?p ?o .\n  }\n}\nWHERE {\n  GRAPH <https://elites-suisses.lod4hss.org/data> {\n    ?s ?p ?o .\n  }\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT (COUNT(*) AS ?count) WHERE {\n  GRAPH <https://elites-suisses.lod4hss.org/resource/> { ?s ?p ?o }\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT ?g (COUNT(*) as ?num)\nWHERE {\nGRAPH ?g {\n    ?s ?p ?o\n}    \n}\nGROUP BY ?g\nORDER BY DESC(?num)",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "DROP GRAPH <https://elites-suisses.lod4hss.org/data>",
+    "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### Test data insert",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "INSERT DATA {\n  GRAPH <http://example.org/test> {\n    <http://example.org/alice> <http://xmlns.com/foaf/0.1/name> \"Alice\" .\n    <http://example.org/alice> <http://xmlns.com/foaf/0.1/knows> <http://example.org/bob> .\n    <http://example.org/bob> <http://xmlns.com/foaf/0.1/name> \"Bob\" .\n    <http://example.org/bob> <http://xmlns.com/foaf/0.1/age> 30 .\n  }\n}",
+    "metadata": {}
+  }
+]

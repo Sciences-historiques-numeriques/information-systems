@@ -1,0 +1,14 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "\nInspect first a card: https://www.wikidata.org/wiki/Q1238363",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT ?person ?personLabel WHERE {\n  ?person wdt:P39 wd:Q18510612.\n  ?person rdfs:label ?personLabel .\n  FILTER(LANG(?personLabel) = \"en\")\n}\nORDER BY ?personLabel\nlimit 10\n",
+    "metadata": {}
+  }
+]

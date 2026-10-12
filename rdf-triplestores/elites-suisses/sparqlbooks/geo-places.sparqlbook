@@ -1,0 +1,26 @@
+[
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX sdh: <https://sdhss.org/ontology/core/>\nPREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>\n\nSELECT *\nWHERE {\n  ?s a sdh:C13 ;\n     <https://sdhss.org/ontology/shortcuts/P9> ?name ;\n     <https://sdhss.org/ontology/shortcuts/P14> ?point ;\n     owl:sameAs ?wikidata .\n}\nlimit 10",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX sdh: <https://sdhss.org/ontology/core/>\nPREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>\nPREFIX geo: <http://www.opengis.net/ont/geosparql#>\n\nconstruct {?s <https://sdhss.org/ontology/shortcuts/P9> ?name ;\na sdh:C13;\n    geo:asWKT ?point\n}\nWHERE {\n  ?s a sdh:C13 ;\n     <https://sdhss.org/ontology/shortcuts/P9> ?name ;\n     <https://sdhss.org/ontology/shortcuts/P14> ?point ;\n     owl:sameAs ?wikidata .\n}\nORDER BY ?s ?p\nlimit 10",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX sdh: <https://sdhss.org/ontology/core/>\nPREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>\nPREFIX geo: <http://www.opengis.net/ont/geosparql#>\nprefix xsd: <http://www.w3.org/2001/XMLSchema#>\n\nSELECT *\nWHERE {\n  ?s a sdh:C13 ;\n     <https://sdhss.org/ontology/shortcuts/P9> ?label ;\n     <https://sdhss.org/ontology/shortcuts/P14> ?point ;\n     owl:sameAs ?wikidata .\n\n  # Extract lat and long from WKT\n  bind(xsd:float(replace(str(?point), \"^[^0-9\\\\.-]*([-]?[0-9\\\\.]+) .*$\", \"$1\" )) as ?long )\n  bind(xsd:float(replace(str(?point), \"^.* ([-]?[0-9\\\\.]+)[^0-9\\\\.]*$\", \"$1\" )) as ?lat )\n\n    }\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX sdh: <https://sdhss.org/ontology/core/>\nPREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>\nPREFIX geo: <http://www.opengis.net/ont/geosparql#>\nprefix xsd: <http://www.w3.org/2001/XMLSchema#>\n\nSELECT *\nWHERE {\n  ?s  sdh:C13 ;\n     <https://sdhss.org/ontology/shortcuts/P9> ?label ;\n     <https://sdhss.org/ontology/shortcuts/P14> ?point ;\n     owl:sameAs ?wikidata .\n\n  # Extract lat and long from WKT\n  bind(xsd:float(replace(str(?point), \"^[^0-9\\\\.-]*([-]?[0-9\\\\.]+) .*$\", \"$1\" )) as ?long )\n  bind(xsd:float(replace(str(?point), \"^.* ([-]?[0-9\\\\.]+)[^0-9\\\\.]*$\", \"$1\" )) as ?lat )\n\n    }\n\n",
+    "metadata": {}
+  }
+]

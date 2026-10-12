@@ -1,0 +1,92 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### List graphs present in repo\nSELECT DISTINCT ?g\nWHERE { graph ?g {\n?s ?p ?o }\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### List available properties in the data graph\n\nSELECT DISTINCT ?p\nWHERE {\n    graph <https://elites-suisses.lod4hss.org/resource/>\n🔗 {\n        ?s ?p ?o\n    }\n}\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### List available properties in the data graph\n\nSELECT ?p (COUNT(*) AS ?num)\nWHERE {\n    graph <https://elites-suisses.lod4hss.org/resource/>\n    {\n        ?s ?p ?o\n    }\n}\nGROUP BY ?p\nORDER BY DESC(?num)\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Count the number of memberships per group .\n# larger number on top\n\nPREFIX sdh-short: <https://sdhss.org/ontology/shortcuts/>\nPREFIX sdh-slc: <https://sdhss.org/ontology/social-life-core/>\nSELECT ?group ?groupLabel (count(*) as ?number)\nWHERE {\n    graph <https://elites-suisses.lod4hss.org/resource/> {\n\n        # was membership of\n        ?membership sdh-slc:P1 ?person;\n        # was membership in\n         sdh-slc:P2 ?group.\n        ?group <https://sdhss.org/ontology/shortcuts/P9> ?groupLabel\n    }\n}\nGROUP BY ?group ?groupLabel\nORDER BY DESC (?number)\nLIMIT 10\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Count the number of memberships per group .\n# larger number on top\n\nPREFIX sdh-short: <https://sdhss.org/ontology/shortcuts/>\nPREFIX sdh-slc: <https://sdhss.org/ontology/social-life-core/>\nSELECT ?group ?groupLabel (count(*) as ?number)\nWHERE {\n    graph <https://elites-suisses.lod4hss.org/resource/> {\n\n        # was membership of\n        ?membership sdh-slc:P1 ?person;\n        # was membership in\n         sdh-slc:P2 ?group.\n        ?group <https://sdhss.org/ontology/shortcuts/P9> ?groupLabel\n\n        FILTER(REGEX(STR(?groupLabel), 'BE'))\n    }\n}\nGROUP BY ?group ?groupLabel\nORDER BY DESC (?number)\nLIMIT 10\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Add the Wikidata URI\n\n\nPREFIX sdh-short: <https://sdhss.org/ontology/shortcuts/>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\n\n\nSELECT distinct ?s ?s_label ?id_ext\nWHERE {\n    graph <https://elites-suisses.lod4hss.org/> {\n        ?s  owl:sameAs ?id_ext; \n            <https://sdhss.org/ontology/shortcuts/P9> ?s_label.\n          \n           # ajout filtre\n           # ?id_ext <http://elites_suisses/ontology/identifier_code> ?o1.\n           # FILTER(?o1 = 'wikidata')\n    }\n}\nLIMIT 10\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Add the Wikidata URI\n\n\nPREFIX sdh-short: <https://sdhss.org/ontology/shortcuts/>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n\nSELECT distinct ?s ?s_label ?id_ext ?p ?o\nWHERE {\n\n    {SELECT distinct ?s ?s_label ?id_ext\n    WHERE {\n    graph <https://elites-suisses.lod4hss.org/resource/> {\n        ?s  owl:sameAs ?id_ext; \n            <https://sdhss.org/ontology/shortcuts/P9> ?s_label.\n          \n           # ajout filtre\n           # ?id_ext <http://elites_suisses/ontology/identifier_code> ?o1.\n           # FILTER(?o1 = 'wikidata')\n            }\n        }\n      LIMIT 10\n    }\n\n    SERVICE <https://query.wikidata.org/sparql> { \n    \n    # ?id_ext rdfs:label ?wLabel.\n    ?id_ext ?p ?o.\n    }\n}\nOFFSET 330\nLIMIT 20    \n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Add the Wikidata URI\n\n\nPREFIX sdh-short: <https://sdhss.org/ontology/shortcuts/>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\n\n\nSELECT ?wp1 ?propLabel (COUNT(*) as ?numberWp)\nWHERE {\n\n    {SELECT ?s ?s_label ?id_ext\n    WHERE {\n    graph <https://elites-suisses.lod4hss.org/resource/> {\n        ?s  owl:sameAs ?id_ext; \n            <https://sdhss.org/ontology/shortcuts/P9> ?s_label.\n          \n           # ajout filtre\n           # ?id_ext <http://elites_suisses/ontology/identifier_code> ?o1.\n           # FILTER(?o1 = 'wikidata')\n            }\n        }\n    OFFSET 3000\n      LIMIT 10\n    }\n\n    SERVICE <https://query.wikidata.org/sparql> { \n    \n    ?id_ext ?wp1 ?wo1.\n\n    ### This is the way of getting properties labels !!!\n    FILTER(CONTAINS(STR(?wp1), 'p/P'))\n    BIND(URI(REPLACE(STR(?wp1), 'prop', 'entity')) as ?prop).\n    OPTIONAL {?prop rdfs:label ?propLabel}\n    FILTER(LANG(?propLabel) = 'en')\n    }\n}\nGROUP BY ?wp1 ?propLabel\nORDER BY DESC (?numberWp) ?wp1\nLIMIT 20\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Add the Wikidata URI\n\n\nPREFIX sdh-short: <https://sdhss.org/ontology/shortcuts/>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>\n\n\nSELECT distinct ?s ?s_label ?id_ext ?givenName ?familyName\nWHERE {\n\n    {SELECT distinct ?s ?s_label ?id_ext\n    WHERE {\n    graph <https://elites-suisses.lod4hss.org/> {\n        ?s  owl:sameAs ?id_ext; \n            a crm:E21;\n            <https://sdhss.org/ontology/shortcuts/P9> ?s_label.\n          \n           # ajout filtre\n           # ?id_ext <http://elites_suisses/ontology/identifier_code> ?o1.\n           # FILTER(?o1 = 'wikidata')\n            }\n        }\n        OFFSET 1000\n        LIMIT 20\n    }\n\n    SERVICE <https://query.wikidata.org/sparql> { \n    \n    # ?id_ext rdfs:label ?wLabel.\n    ?id_ext wdt:P734/rdfs:label ?familyName.\n    ?id_ext wdt:P735/rdfs:label ?givenName\n    FILTER((lang(?familyName)='en') && (lang(?givenName)='en'))      \n    }\n}\nLIMIT 10 \n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Get wikidata properties of statements\n# For a single property: P39, or P106\n\nPREFIX sdh-short: <https://sdhss.org/ontology/shortcuts/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX ps: <http://www.wikidata.org/prop/statement/>\nPREFIX wd: <http://www.wikidata.org/entity/>\n\nSELECT ?s ?s_label ?wikidata_uri ?wst1 ?wp1 ?wo1 ?wo1Label\nWHERE {\n\n{SELECT ?s ?s_label (count(*) as ?number)\nWHERE {\ngraph <https://swiss-elites.lod4hss.cloud/resource/> {\n    ?s <http://elites_suisses/ontology/memberOf> ?o;\n        <https://sdhss.org/ontology/shortcuts/P9> ?s_label\n}\n}\n\nGROUP BY ?s ?s_label\nORDER BY DESC (?number)\nOFFSET 200\nLIMIT 10\n}\n?s owl:sameAs ?id_ext.\n# ajout filtre pour avoir les URL wikidata \n?id_ext <http://elites_suisses/ontology/identifier_code> ?o1.\nFILTER(?o1 = 'wikidata')\n## URI wikidata\nBIND(URI(REPLACE(STR(?id_ext), 'https://www.wikidata.org/wiki/', 'http://www.wikidata.org/entity/')) AS ?wikidata_uri)\nFILTER(?o1 = 'wikidata')\n\nSERVICE <https://query.wikidata.org/sparql> { \n    \n    ?wikidata_uri p:P39 ?wst1.\n    ?wst1 ?wp1 ?wo1.\n    FILTER(\n        (CONTAINS(STR(?wp1), 'P582') \n        ||  CONTAINS(STR(?wp1), 'P580')\n        ||  CONTAINS(STR(?wp1), 'P39')\n        ) && (!CONTAINS(STR(?wp1), 'value')\n        )\n    )\n    OPTIONAL {?wo1 rdfs:label ?wo1Label.\n            FILTER (lang(?wo1Label) = 'en')\n    }\n    \n   \n}\n\n\n}\norder by ?wikidata_uri ?wst1\nLIMIT 200\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Get and count wikidata statements properties\n\nPREFIX sdh-short: <https://sdhss.org/ontology/shortcuts/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n\nSELECT ?wp1 ?pLabel (COUNT(*) as ?numberWp)\nWHERE {\n\n{SELECT ?s (count(*) as ?number)\nWHERE {\ngraph <https://swiss-elites.lod4hss.cloud/resource/> {\n    ?s <http://elites_suisses/ontology/memberOf> ?o.\n}\n}\n\nGROUP BY ?s\nORDER BY DESC (?number)\nLIMIT 100\n}\n?s owl:sameAs ?id_ext.\n# ajout filtre pour avoir les URL wikidata \n?id_ext <http://elites_suisses/ontology/identifier_code> ?o1.\nFILTER(?o1 = 'wikidata')\n## URI wikidata\nBIND(URI(REPLACE(STR(?id_ext), 'https://www.wikidata.org/wiki/', 'http://www.wikidata.org/entity/')) AS ?wikidata_uri)\nFILTER(?o1 = 'wikidata')\n\nSERVICE <https://query.wikidata.org/sparql> { \n    \n    ## P39 (position held), P106 (occupation), P102 (member of political party)\n    ?wikidata_uri p:P106 [?wp1 ?wo1].\n    BIND(URI(REPLACE(STR(?wp1), \"^.*[/]\", \"http://www.wikidata.org/entity/\")) AS ?id_wp1)\n    OPTIONAL {?id_wp1 rdfs:label ?pLabel.\n            FILTER (lang(?pLabel) = 'en')\n    }\n    \n}\n\n\n}\nGROUP BY ?wp1 ?pLabel\nORDER BY DESC (?numberWp) ?p1\nLIMIT 30\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "",
+    "metadata": {}
+  }
+]
