@@ -2,7 +2,49 @@
   {
     "kind": 2,
     "language": "sparql",
-    "value": "SELECT (COUNT(*) as ?num)\nWHERE {\n\n    ?s ?p ?o.\n}\n",
+    "value": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n\nSELECT *\nWHERE {\n    ?s rdf:type ?class.\n}\nlimit 20\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT DISTINCT ?class ?classLabel\nWHERE {\n    ?s rdf:type ?class.\n    ?class rdfs:label ?classLabel\n}\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT ?class ?classLabel (COUNT(*) AS ?num)\nWHERE {\n    ?s rdf:type ?class.\n    ?class rdfs:label ?classLabel\n}\nGROUP BY ?class ?classLabel\nORDER BY ?classLabel\n\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT ?p ?pLabel (COUNT(*) AS ?num)\nWHERE {\n    ?s ?p ?o.\n    OPTIONAL {?p rdfs:label ?pLabel}\n}\nGROUP BY ?p ?pLabel\nORDER BY DESC(?num)\n\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "### Grouping my population by gender\n\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT  ?gender ?genderLabel (COUNT(*) AS ?num)\nWHERE {\n    ?person <https://sdhss.org/ontology/social-life-core/P23> ?gender.\n    ?gender <https://sdhss.org/ontology/shortcuts/P9> ?genderLabel\n}\nGROUP BY ?gender ?genderLabel\nORDER BY DESC(?num)\n\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n\nSELECT (COUNT(*) as ?num)\nWHERE {\n\n    ?s rdf:type ?class.\n}\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT (COUNT(*) as ?num)\nWHERE {\n    ?s ?p ?o.\n}\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT *\nWHERE {\n    ?s ?p ?o.\n}\nOFFSET 100000\nLIMIT 10\n",
     "metadata": {}
   },
   {

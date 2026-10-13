@@ -1,0 +1,14 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Inspection of elites suisses triplestore",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "SELECT ?p ?pLabel ?o\nWHERE {\n  <https://elites-suisses.lod4hss.org/resource/p55864> ?p ?o .\n  OPTIONAL {\n    ?p rdfs:label ?pLabel .\n  }\n}\nLIMIT 10",
+    "metadata": {}
+  }
+]

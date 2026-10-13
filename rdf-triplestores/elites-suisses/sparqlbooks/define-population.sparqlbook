@@ -8,7 +8,25 @@
   {
     "kind": 2,
     "language": "sparql",
-    "value": "## get all members\n\nPREFIX sdh-so: <https://sdhss.org/ontology/social-life-core/>\n\nSELECT (COUNT(*) AS ?num)\nWHERE {\n    ?s  sdh-so:P2 <https://elites-suisses.lod4hss.org/resource/g7>\n}",
+    "value": "## get all members\n\nPREFIX sdh-so: <https://sdhss.org/ontology/social-life-core/>\n\n\nSELECT (COUNT(*) AS ?num)\nWHERE {\n   ?membership sdh-so:P2 <https://elites-suisses.lod4hss.org/resource/g7>\n}",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "## get all members\n\nPREFIX sdh-so: <https://sdhss.org/ontology/social-life-core/>\nPREFIX  sdh-short: <https://sdhss.org/ontology/shortcuts/>\n\nSELECT DISTINCT ?person ?personLabel\nWHERE {\n    ?membership sdh-so:P2 <https://elites-suisses.lod4hss.org/resource/g7>;\n    sdh-so:P1 ?person.\n    OPTIONAL{?person sdh-short:P9 ?personLabel.}\n}\nLIMIT 2",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "## get all members\n\nPREFIX sdh-so: <https://sdhss.org/ontology/social-life-core/>\nPREFIX  sdh-short: <https://sdhss.org/ontology/shortcuts/>\n\nSELECT DISTINCT ?person ?personLabel ?uriIdRef\nWHERE {\n    ?membership sdh-so:P2 <https://elites-suisses.lod4hss.org/resource/g7>;\n    sdh-so:P1 ?person.\n    ?person owl:sameAs ?uriIdRef.\n    OPTIONAL{?person sdh-short:P9 ?personLabel.}\n}\nLIMIT 10",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "## get all members\n\nPREFIX sdh-so: <https://sdhss.org/ontology/social-life-core/>\nPREFIX  sdh-short: <https://sdhss.org/ontology/shortcuts/>\n\nSELECT DISTINCT ?person ?personLabel ?uriIdRef ?p ?s\nWHERE {\n    ?membership sdh-so:P2 <https://elites-suisses.lod4hss.org/resource/g7>;\n    sdh-so:P1 ?person.\n    ?person owl:sameAs ?uriIdRef.\n    OPTIONAL{?person sdh-short:P9 ?personLabel.}\n\n\n    SERVICE <https://data.idref.fr/sparql> {\n        ?s ?p ?uriIdRef.\n      }\n    \n}\nLIMIT 10",
     "metadata": {}
   }
 ]

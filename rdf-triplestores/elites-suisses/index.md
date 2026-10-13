@@ -6,7 +6,6 @@
 
 * Install the SPARQL Notebook extension (Zazuko) for VSCode
 * Viewer: https://matgui.matdata.eu/#
-* [SPARQL Pad](https://mypads.framapad.org/mypads/?/mypads/group/heloise-mlg9f7fi/pad/view/sparql-opcol738)
 
 
 * The best tutorial: the [W3C Recommendation](http://www.w3.org/TR/rdf-sparql-query/)
