@@ -1,0 +1,14 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Define a population\n\n[Choose an organisation](https://elites-suisses.lod4hss.org/sparql-queries/groups-table.html), ideally a government of a canton, and copy the URI.\n\n\nIn the examples below the entity is [Conseil d'état du canton de Fribourg](https://elites-suisses.lod4hss.org/resource/g7) : https://elites-suisses.lod4hss.org/resource/g7",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "## get all members\n\nPREFIX sdh-so: <https://sdhss.org/ontology/social-life-core/>\n\nSELECT (COUNT(*) AS ?num)\nWHERE {\n    ?s  sdh-so:P2 <https://elites-suisses.lod4hss.org/resource/g7>\n}",
+    "metadata": {}
+  }
+]

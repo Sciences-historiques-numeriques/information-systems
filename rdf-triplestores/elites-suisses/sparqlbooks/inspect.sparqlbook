@@ -22,5 +22,23 @@
     "language": "sparql",
     "value": "SELECT (COUNT(*) as ?num)\nWHERE {\nGRAPH ?g {\n    ?s ?p ?o\n}    \n}\nORDER BY DESC(?num)",
     "metadata": {}
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Data management",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "WITH <https://elites-suisses.lod4hss.org/resource/>\nINSERT {\n  ?s ?p ?o .\n}\nWHERE {\n  SERVICE <https://lod4hss1.dh.unibe.ch/ontop/sparql> {\n    ?s ?p ?o .\n  }\n}\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "CLEAR GRAPH <https://elites-suisses.lod4hss.org/resource/>",
+    "metadata": {}
   }
 ]

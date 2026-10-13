@@ -1,0 +1,26 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Exploring IdRef and SUDOC",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "## Alain Berset\nSELECT *\nwhere {\n    \n    # p88459\n    <https://elites-suisses.lod4hss.org/resource/p69819> ?p ?o.\n    OPTIONAL {?p rdfs:label ?pLabel}\n\n}\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n\nSELECT *\nwhere {\n    \n    # p88459\n    <https://elites-suisses.lod4hss.org/resource/p69819> owl:sameAs ?uri.\n\n## Alain Berset as subject\n\n    SERVICE <https://data.idref.fr/sparql> {\n        ?uri ?p ?s.\n      }\n    \n\n}\n\n",
+    "metadata": {}
+  },
+  {
+    "kind": 2,
+    "language": "sparql",
+    "value": "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n\n## Alain Berset\nSELECT ?s ?p ?uri\nwhere {\n    \n    # p88459\n    <https://elites-suisses.lod4hss.org/resource/p69819> owl:sameAs ?uri.\n\n    ## Alain Berset as object\n    SERVICE <https://data.idref.fr/sparql> {\n        ?s ?p ?uri.\n      }\n    \n\n}\n\n",
+    "metadata": {}
+  }
+]
