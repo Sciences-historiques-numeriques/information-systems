@@ -14,4 +14,3 @@
 
 ### Triplestores
 * [main] https://open-gdb.lod4hss.org/repositories/esw
-* [rescue] https://lod4hss1.dh.unibe.ch/agraph/repositories/elites_suisses
